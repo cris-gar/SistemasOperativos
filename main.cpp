@@ -12,6 +12,8 @@ using namespace std;
 /*
  *
  */
+
+
 void LlenarMatriz(int A[][4], int x, int y) {
     int maximo;
     for (int i = 0; i < x; i++) {
@@ -71,6 +73,77 @@ void MostrarDisponible(int C[4], int y) {
         cout << " [ " << C[c] << " ] ";
     }
 
+}
+int safeSequence[10];
+int Procesos[10];
+void CalculoBanquero( int Asignados[][4],int Maximo[][4],int Necesidad[][4],int x , int y , int DisponibletiempoI[4],int CantidadRecusos , int CantidadProcesos){
+
+     int  r, i , j ,process, count;
+     count=0;
+     for(i=0;i<=CantidadProcesos;i++)
+     Procesos[i]=i;
+
+     do
+        {
+            cout<<"\n Matriz Maxima:\tMatriz Asignado:\n";
+
+            for(i = 0; i < CantidadProcesos; i++)
+            {
+                for( j = 0; j < r; j++)
+                cout<<Maximo[i][j];
+                cout<<"\t\t";
+                for( j = 0; j < r; j++)
+                cout<<Asignados[i][j];
+                cout<<"\n";
+            }
+
+            process = -1;
+
+            for(i = 0; i < CantidadProcesos; i++)
+            {
+                if(Procesos[i] == 0)//if not completed
+                {
+                    process = i ;
+                    for(j = 0; j < r; j++)
+                    {
+                        if(DisponibletiempoI[j] < Necesidad[i][j])
+                        {
+                            process = -1;
+                            break;
+                        }
+                    }
+                }
+                if(process != -1)
+                    break;
+            }
+
+            if(process != -1)
+            {
+                cout<<"\nProceso ejecutado!"<<process + 1;
+                safeSequence[count] = process + 1;
+                count++;
+                for(j = 0; j < r; j++)
+                {
+                    DisponibletiempoI[j] += Asignados[process][j];
+                    Asignados[process][j] = 0;
+                    Maximo[process][j] = 0;
+                    Procesos[process] = 1;
+                }
+            }
+        }
+        while(count != CantidadProcesos && process != -1);
+
+        if(count == CantidadProcesos)
+        {
+            cout<<"\nThe system is in a safe state!!\n";
+            cout<<"Secuencia : < ";
+            for( i = 0; i < CantidadProcesos; i++)
+            cout<<safeSequence[i];
+            cout<<">\n";
+        }
+        else
+            cout<<"\nThe system is in an unsafe state!!";
+
 
 }
 
@@ -102,9 +175,12 @@ int main(int argc, char** argv) {
 
     cout << "DISPONIBLE Total" << endl;
     MostrarDisponible(Disponible, CantidadRecursos);
-    
+
     cout  << endl << "DISPONIBLE en el tiempo i" << endl;
     MostrarDisponible(DisponibletiempoI, CantidadRecursos);
+
+    cout<< endl << "CALCULANDO......"<<endl;
+    CalculoBanquero(Asignados,Maximo,Necesidad,CantidadProcesos,CantidadRecursos,DisponibletiempoI,CantidadProcesos,CantidadRecursos);
 
     /*for (int i = 0; i < CantidadProcesos;i++) {
         for (int j = 0; j < CantidadRecursos; j++) {
