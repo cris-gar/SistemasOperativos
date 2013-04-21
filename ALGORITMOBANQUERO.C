@@ -17,17 +17,17 @@ int main(){
   printf("\nEnter  Claim Vector: ");
   for(i=0;i<r;i++) scanf("%d",&maxres[i]);
 
-  printf("\nEnter Allocated Resource Table:\n");
+  printf("\nEnter Allocated Resource Table:\n");//Asignados
   for(i=0;i<p;i++){
     for(j=0;j<r;j++) scanf("%d",&curr[i][j]);
   }
 
-  printf("\nEnter Maximum Claim table:\n");
+  printf("\nEnter Maximum Claim table:\n");//Maximos
   for(i=0;i<p;i++){
     for(j=0;j<r;j++) scanf("%d",&maxclaim[i][j]);
   }
 
-  printf("\nThe Claim Vector is: ");
+  printf("\nThe Claim Vector is: ");//Vectr Disponible
   for(i=0;i<r;i++) printf("\t%d",maxres[i]);
   printf("\nThe Allocated Resource Table:\n");
   for(i=0;i<p;i++){
@@ -45,7 +45,7 @@ int main(){
     for(j=0;j<r;j++) alloc[j]+=curr[i][j];
   printf("\nAllocated resources:");
   for(i=0;i<r;i++) printf("\t%d",alloc[i]);
-                                // RESTA DE DISPONIVILIDAD
+                                // RESTA DE DISPONIbILIDAD
   for(i=0;i<r;i++) avl[i]=maxres[i]-alloc[i];
 
   printf("\nAvailable resources:");

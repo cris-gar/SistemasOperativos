@@ -75,30 +75,32 @@ void MostrarDisponible(int C[4], int y) {
 }
 int safeSequence[10];
 int Procesos[10];
-void CalculoBanquero( int Asignados[][4],int Maximo[][4],int Necesidad[][4],int x , int y , int DisponibletiempoI[4],int CantidadRecusos , int CantidadProcesos){
+void CalculoBanquero( int Asignados[][4],int Maximo[][4],int Necesidad[][4],int x , int y , int DisponibletiempoI[4],int p , int r){
 
-     int  r, i , j ,process, count;
+     int  i , j ,process, count;
      count=0;
-     for(i=0;i<=CantidadProcesos;i++)
-     Procesos[i]=i;
-
+     for(i=0;i<=p;i++){
+     Procesos[i]=0;
+    
+     }
+     
+     
      do
         {
-            cout<<"\n Matriz Maxima:\tMatriz Asignado:\n";
-
-            for(i = 0; i < CantidadProcesos; i++)
-            {
-                for( j = 0; j < r; j++)
-                cout<<Maximo[i][j];
-                cout<<"\t\t";
-                for( j = 0; j < r; j++)
-                cout<<Asignados[i][j];
-                cout<<"\n";
-            }
+                
+                cout<<"Matriz Maximo";
+                cout<<endl;
+                MostrarMatriz(Maximo,p,r);
+                cout<<endl;
+                cout<<"Matriz Asignados";
+                cout<<endl;
+                MostrarMatriz(Asignados,p,r);
+                cout<<endl;
+            
 
             process = -1;
 
-            for(i = 0; i < CantidadProcesos; i++)
+            for(i = 0; i < p; i++)
             {
                 if(Procesos[i] == 0)//if not completed
                 {
@@ -119,6 +121,7 @@ void CalculoBanquero( int Asignados[][4],int Maximo[][4],int Necesidad[][4],int 
             if(process != -1)
             {
                 cout<<"\nProceso ejecutado!"<<process + 1;
+                cout<<endl;
                 safeSequence[count] = process + 1;
                 count++;
                 for(j = 0; j < r; j++)
@@ -130,18 +133,18 @@ void CalculoBanquero( int Asignados[][4],int Maximo[][4],int Necesidad[][4],int 
                 }
             }
         }
-        while(count != CantidadProcesos && process != -1);
+        while(count != p && process != -1);
 
-        if(count == CantidadProcesos)
+        if(count == p)
         {
-            cout<<"\nThe system is in a safe state!!\n";
+            cout<<"\nSistema termino de ejecutarse!!\n";
             cout<<"Secuencia : < ";
-            for( i = 0; i < CantidadProcesos; i++)
+            for( i = 0; i < p; i++)
             cout<<safeSequence[i];
             cout<<">\n";
         }
         else
-            cout<<"\nThe system is in an unsafe state!!";
+            cout<<"\nSistema no pudo terminar el ejecutarse completamente!!";
 
 
 }
