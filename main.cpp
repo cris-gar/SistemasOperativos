@@ -36,17 +36,16 @@ void LlenarDisponible(int A[], int z) {
     cout << endl;
 }
 
-void CalcularDisponibleenTiempo(int A[][4], int B[4], int x, int y, int DisponibletiempoI[4]) {
-    int dato = 0;
-    for (int i = 0; i < y; i++) {
-        for (int j = 0; j < x; j++) {
-            dato = dato + A[i][j];
-        }
-        DisponibletiempoI[i] = dato;
-    }
-    for (int c = 0; c < y; c++) {
-        DisponibletiempoI[c] = B[c] - DisponibletiempoI[c];
-    }
+void CalcularDisponibleenTiempo(int A[][4], int B[4], int p, int r, int DisponibletiempoI[4]) {
+    int dato[5]={0,0,0,0};
+    int i,j;
+    for( i=0;i<p;i++)
+    for( j=0;j<r;j++) 
+        dato[j]+=A[i][j];
+  
+ 
+  for(i=0;i<r;i++) DisponibletiempoI[i]=B[i]-dato[i];
+ 
 }
 
 void CalcularNecesidad(int A[][4], int B[][4], int C[][4], int x, int y) {
@@ -175,7 +174,7 @@ int main(int argc, char** argv) {
 
     cout << "DISPONIBLE Total" << endl;
     MostrarDisponible(Disponible, CantidadRecursos);
-
+//
     cout  << endl << "DISPONIBLE en el tiempo i" << endl;
     MostrarDisponible(DisponibletiempoI, CantidadRecursos);
 
