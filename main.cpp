@@ -14,137 +14,131 @@ using namespace std;
  */
 
 
-void LlenarMatriz(int A[][4], int x, int y) {
+void LlenarMatriz(int Matriz[][4], int CantidadProcesos, int CantidadRecursos) { //procedimiento que se encarga de llenar la matriz que recibe con datos ingresados por el usuario
     int maximo;
-    for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
-            cout << "ingrese los datos de la matriz [" << i <<"]"<<"["<<j<<"]: " ;
+    for (int i = 0; i < CantidadProcesos; i++) {
+        for (int j = 0; j < CantidadRecursos; j++) {
+            cout << "ingrese los datos de la matriz [" << i << "]" << "[" << j << "]: ";
             cin >> maximo;
-            A[i][j] = maximo;
+            Matriz[i][j] = maximo;
         }
     }
     cout << endl;
 }
 
-void LlenarDisponible(int A[], int z) {
+void LlenarDisponible(int Vector[], int CantidadRecursos) {//procedimiento que se encarga de llenar el Vector que recibe con datos ingresados por el usuario
     int maximo;
-    for (int j = 0; j < z; j++) {
-        cout << "ingrese los datos del vector [" << j <<"]: ";
+    for (int j = 0; j < CantidadRecursos; j++) {
+        cout << "ingrese los datos del vector [" << j << "]: ";
         cin >> maximo;
-        A[j] = maximo;
+        Vector[j] = maximo;
     }
     cout << endl;
 }
 
-void CalcularDisponibleenTiempo(int A[][4], int B[4], int p, int r, int DisponibletiempoI[4]) {
-    int dato[5]={0,0,0,0};
-    int i,j;
-    for( i=0;i<p;i++)
-    for( j=0;j<r;j++) 
-        dato[j]+=A[i][j];
-  
- 
-  for(i=0;i<r;i++) DisponibletiempoI[i]=B[i]-dato[i];
- 
+void CalcularDisponibleenTiempo(int MatrizA[][4], int MatrizB[4], int CantidadProcesos, int CantidadRecursos, int DisponibletiempoI[4]) {//Calcula los recursos disponibles en el tiempo para el algoritmo
+    int dato[5] = {0, 0, 0, 0};
+    int i, j;
+    for (i = 0; i < CantidadProcesos; i++)
+        for (j = 0; j < CantidadRecursos; j++)
+            dato[j] += MatrizA[i][j];
+
+    for (i = 0; i < CantidadRecursos; i++) DisponibletiempoI[i] = MatrizB[i] - dato[i];
+
 }
 
-void CalcularNecesidad(int A[][4], int B[][4], int C[][4], int x, int y) {
-    for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
-            A[i][j] = B[i][j] - C[i][j];
+void CalcularNecesidad(int MatrizA[][4], int MatrizB[][4], int MatrizC[][4], int CantidadProcesos, int CantidadRecursos) {//Calcula la necesidad de cada fila para la matriz Necesidad
+    for (int i = 0; i < CantidadProcesos; i++) {
+        for (int j = 0; j < CantidadRecursos; j++) {
+            MatrizA[i][j] = MatrizB[i][j] - MatrizC[i][j];
         }
     }
 }
 
-void MostrarMatriz(int A[][4], int x, int y) {
-    for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
-            cout << "[ " << A[i][j] << " ]";
+void MostrarMatriz(int MatrizA[][4], int CantidadProcesos, int CantidadRecursos) {//procedimiento que muestra por pantalla el contenido de la matriz recibida como parametro
+    for (int i = 0; i < CantidadProcesos; i++) {
+        for (int j = 0; j < CantidadRecursos; j++) {
+            cout << "[ " << MatrizA[i][j] << " ]";
         }
         cout << endl;
     }
 }
 
-void MostrarDisponible(int C[4], int y) {
-
-
-    for (int c = 0; c < y; c++) {
-        cout << " [ " << C[c] << " ] ";
+void MostrarDisponible(int VectorC[4], int CantidadRecursos) {// procedimiento que muestra por pantalla el contenido del vector recibido como paramatro
+    for (int c = 0; c < CantidadRecursos; c++) {
+        cout << " [ " << VectorC[c] << " ] ";
     }
 
 }
 int safeSequence[10];
 int Procesos[10];
-void CalculoBanquero( int Asignados[][4],int Maximo[][4],int Necesidad[][4],int x , int y , int DisponibletiempoI[4],int p , int r){
 
-     int  i , j ,process, count;
-     count=0;
-     for(i=0;i<=p;i++){
-     Procesos[i]=0;
-    
-     }
-     
-     
-     do
-        {
-                
-                cout<<"Matriz Maximo";
-                cout<<endl;
-                MostrarMatriz(Maximo,p,r);
-                cout<<endl;
-                cout<<"Matriz Asignados";
-                cout<<endl;
-                MostrarMatriz(Asignados,p,r);
-                cout<<endl;
-            
+void CalculoBanquero(int Asignados[][4], int Maximo[][4], int Necesidad[][4], int DisponibletiempoI[4], int CantidadProcesos, int CantidadRecursos) {
+    //procedimiento que calcula el algoritmo del banquero
+    int i, j, process, count;
+    count = 0;
+    for (i = 0; i <= CantidadProcesos; i++) {
+        Procesos[i] = 0;
+        void CalculoBanquero(int Asignados[][4], int Maximo[][4], int Necesidad[][4], int DisponibletiempoI[4], int CantidadProcesos, int CantidadRecursos);
+        //llamada recursiva al algoritmo del banquero
+    }
 
-            process = -1;
 
-            for(i = 0; i < p; i++)
-            {
-                if(Procesos[i] == 0)//if not completed
-                {
-                    process = i ;
-                    for(j = 0; j < r; j++)
-                    {
-                        if(DisponibletiempoI[j] < Necesidad[i][j])
-                        {
-                            process = -1;
-                            break;
-                        }
+    do//acciones que se tienen que realizar antes de verificar
+    {
+
+        cout << "Matriz Maximo";
+        cout << endl;
+        MostrarMatriz(Maximo, CantidadProcesos, CantidadRecursos); //muetra la matriz Maximo correspondiente por pantalla
+        cout << endl;
+        cout << "Matriz Asignados";
+        cout << endl;
+        MostrarMatriz(Asignados, CantidadProcesos, CantidadRecursos); // muetra la matriz Asignada correspondiente por pantalla
+        cout << endl;
+
+
+        process = -1;
+        //ciclo for para ver si el la fila correspondiente de la necesida se ajusta al disponible en el tiempo
+        for (i = 0; i < CantidadProcesos; i++) {
+            if (Procesos[i] == 0) {
+                process = i;
+                for (j = 0; j < CantidadProcesos; j++) {
+                    if (DisponibletiempoI[j] < Necesidad[i][j]) {
+                        process = -1;
+                        break;
                     }
                 }
-                if(process != -1)
-                    break;
             }
-
-            if(process != -1)
-            {
-                cout<<"\nProceso ejecutado!"<<process + 1;
-                cout<<endl;
-                safeSequence[count] = process + 1;
-                count++;
-                for(j = 0; j < r; j++)
-                {
-                    DisponibletiempoI[j] += Asignados[process][j];
-                    Asignados[process][j] = 0;
-                    Maximo[process][j] = 0;
-                    Procesos[process] = 1;
-                }
-            }
+            if (process != -1)
+                break;
         }
-        while(count != p && process != -1);
 
-        if(count == p)
+        if (process != -1)//si la fila de la nesecidad si se ajusta entra
         {
-            cout<<"\nSistema termino de ejecutarse!!\n";
-            cout<<"Secuencia : < ";
-            for( i = 0; i < p; i++)
-            cout<<safeSequence[i];
-            cout<<">\n";
+            cout << endl << "Proceso ejecutado!" << process + 1;
+            cout << endl;
+            safeSequence[count] = process + 1;
+            count++;
+            for (j = 0; j < CantidadRecursos; j++)//ciclo for para afectar a la fila asignada en le maximo y tambien la necesidad en el tiempo
+            {
+                DisponibletiempoI[j] += Asignados[process][j];
+                Asignados[process][j] = 0;
+                Maximo[process][j] = 0;
+                Procesos[process] = 1;
+            }
         }
-        else
-            cout<<"\nSistema no pudo terminar el ejecutarse completamente!!";
+    } while (count != (CantidadProcesos) && process != -1);
+
+    if (count == CantidadProcesos)//si el contador es igual a la cantidad de procesos entra	
+    {
+        //muestra por pantalla la secuencia segura conrrespondiente 
+        cout << "\nSistema termino de ejecutarse!!\n";
+        cout << "Secuencia : < ";
+        for (i = 0; i < CantidadProcesos; i++)
+            cout << safeSequence[i];
+        cout << ">\n";
+    } else
+        cout << "\nSistema no pudo terminar el ejecutarse completamente!!";
 
 
 }
@@ -160,37 +154,29 @@ int main(int argc, char** argv) {
     int Disponible[4], DisponibletiempoI[4];
 
     cout << "Ingrese Datos de la Matriz Maximo:" << endl;
-    LlenarMatriz(Maximo, CantidadProcesos, CantidadRecursos);
+    LlenarMatriz(Maximo, CantidadProcesos, CantidadRecursos); //llamada al procedimiento llenar matriz enviando la matriz de Maximo
     cout << "Ingrese Datos de la Matriz Asignados:" << endl;
-    LlenarMatriz(Asignados, CantidadProcesos, CantidadRecursos);
-    LlenarDisponible(Disponible, CantidadRecursos);
-    CalcularDisponibleenTiempo(Asignados, Disponible, CantidadProcesos, CantidadRecursos, DisponibletiempoI);
-    CalcularNecesidad(Necesidad, Maximo, Asignados, CantidadProcesos, CantidadRecursos);
+    LlenarMatriz(Asignados, CantidadProcesos, CantidadRecursos); //llamada al procedimiento llenar matriz enviando la matriz de Asignados 
+    LlenarDisponible(Disponible, CantidadRecursos); //llamada al procedimiento llenar Disponible enviando el vector Disponible total
+    CalcularDisponibleenTiempo(Asignados, Disponible, CantidadProcesos, CantidadRecursos, DisponibletiempoI); //llamada al procedimiento CalcularDisponibleenTiempo donde es enviando el vector Disponible, Asignados, la cantidad de procesos y recursos y el DisponibletiempoI 
+    CalcularNecesidad(Necesidad, Maximo, Asignados, CantidadProcesos, CantidadRecursos); //llamada al procedimiento CalalcularNecesidad enviando Necesidad, Asignados, Maximo y la cantidad de procesos y recursos.
     cout << "MAXIMO" << endl;
-    MostrarMatriz(Maximo, CantidadProcesos, CantidadRecursos);
+    MostrarMatriz(Maximo, CantidadProcesos, CantidadRecursos); //llamada al procedimiento mostrar matriz con el parametro Maximo
 
     cout << "ASIGNADOS" << endl;
-    MostrarMatriz(Asignados, CantidadProcesos, CantidadRecursos);
+    MostrarMatriz(Asignados, CantidadProcesos, CantidadRecursos); //llamada al procedimienro mostrar matriz con el parametro Asignados
 
     cout << "NECESIDAD" << endl;
-    MostrarMatriz(Necesidad, CantidadProcesos, CantidadRecursos);
+    MostrarMatriz(Necesidad, CantidadProcesos, CantidadRecursos); //llamada al procedimiento mostrar matriz con el parametro Necesidad
 
     cout << "DISPONIBLE Total" << endl;
-    MostrarDisponible(Disponible, CantidadRecursos);
-//
-    cout  << endl << "DISPONIBLE en el tiempo i" << endl;
-    MostrarDisponible(DisponibletiempoI, CantidadRecursos);
+    MostrarDisponible(Disponible, CantidadRecursos); // llamada al procedimiento mostrar Disponible con el parametro Disponible
 
-    cout<< endl << "CALCULANDO......"<<endl;
-    CalculoBanquero(Asignados,Maximo,Necesidad,CantidadProcesos,CantidadRecursos,DisponibletiempoI,CantidadProcesos,CantidadRecursos);
+    cout << endl << "DISPONIBLE en el tiempo i" << endl;
+    MostrarDisponible(DisponibletiempoI, CantidadRecursos); //llama al procedimiento mostrar Disponible con el parametro DisponibletiempoI
 
-    /*for (int i = 0; i < CantidadProcesos;i++) {
-        for (int j = 0; j < CantidadRecursos; j++) {
-            cout << Maximo[i][j]<< "-";
-        }
-        cout << endl;
-    }*/
-
+    cout << endl << "CALCULANDO......" << endl;
+    CalculoBanquero(Asignados, Maximo, Necesidad, DisponibletiempoI, CantidadProcesos, CantidadRecursos); //llamada al procedimiento funcion CalculoBanquero con todos los parametros.
 
     return 0;
 }
